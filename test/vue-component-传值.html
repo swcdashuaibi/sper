@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="lib/animate.css">
+        <link rel="stylesheet" href="lib/bootstrap-3.3.7.css">
+        <script src="lib/vue-2.4.0.js"></script>
+        <script src="lib/vue-resource-1.3.4.js"></script>
+    </head>
+    <body>
+    <div id="app">
+    	<com1 @func ='famed'></com1>
+    </div>
+
+    <template id='tepl'>
+    	<div>
+    		<h1>这是自组建</h1>
+    		<input type="button" value="出发父组件方法" @click = 'myclick'>
+    	</div>	
+    </template>
+	<script>
+
+	var com1 = {
+		template: "#tepl",
+		data(){
+			return {
+				spmsg:{name:'zhouxx',id: 6}
+			}
+		},
+		methods: {
+			myclick(){
+				this.$emit('func',this.spmsg)
+			}
+		},
+
+	}
+
+	var vm = new Vue({
+		el: "#app",
+		data: {
+			fromson: null
+		},
+		methods:{
+			famed(data){
+				console.log('父组件方法+==='+data);
+				this.fromson = data
+			}
+		},
+		components:{
+			com1
+		}
+	})
+	</script>
+    </body>
+</html>
