@@ -1,0 +1,72 @@
+*,::before,
+::after{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  user-select: text;
+  -webkit-user-select: text;
+  -webkit-tap-highlight-color: transparent;
+}
+body {
+  /*  font: 14px  PingFang SC,"Helvetica Neue",Helvetica,Arial,"Microsoft Yahei",
+    "Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;*/
+  font: 14px 'PingFangSC-Medium','\5FAE\8F6F\96C5\9ED1',Arial,'Hiragino Sans GB','\5B8B\4F53';
+  color: #333333;
+  text-decoration: none;
+}
+
+/*颜色选区*/
+.font-white{
+  color: #ffffff;
+}
+
+.font-gray{
+  color:#cccccc;
+}
+
+/*背景颜色选区*/
+.bg-white{
+  background-color: #fff;
+}
+
+/*字体大小选区*/
+.font-size-14{
+  font-size: 14px;
+}
+
+/*常用样式*/
+.clearfix::before,.clearfix::after{
+  content: '';
+  display: block;
+  visibility: hidden;
+  height: 0;
+  line-height: 0;
+  clear: both;
+}
+
+.f-left{
+  float: left;
+}
+
+.f-right{
+  float: right;
+}
+
+/*内容文字显示省略处理*/
+.content-font-less{
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box; /** 对象作为伸缩盒子模型显示 **/
+  -webkit-box-orient: vertical; /** 设置或检索伸缩盒对象的子元素的排列方式 **/
+  -webkit-line-clamp: 2; /** 显示的行数 **/
+  overflow: hidden;  /** 隐藏超出的内容 **/
+}
+
+/*内容文字省略一排显示*/
+.content-font-one{
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

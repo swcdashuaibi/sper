@@ -33,6 +33,7 @@ module.exports = {
             //npm i babel-core babel-loader babel-plugin-transform-runtime -D
             //npm i babel-preset-stage-0 -D
             {test:/\.js$/,use: 'babel-loader',exclude:/node_modules/ },
+            {test:/.(png|gif|jpg|svg|ttf)$/, use:['file-loader']},
             {test:/\.vue$/,use:'vue-loader'}
         ]
     },
