@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>01</title>
+</head>
+<body>
+<canvas height="600" width="600" id="demo">
+
+</canvas>
+<script>
+    var canvas = document.getElementById('demo');
+    var ctx = canvas.getContext('2d')
+
+    canvas.style.border = '1px solid #333333';
+
+    ctx.moveTo(20,20);
+    ctx.lineTo(100,100);
+    ctx.lineTo(50,80);
+    ctx.closePath();
+    // 设置线段宽度
+    ctx.lineWidth = 4;
+    // 设置线段颜色
+    ctx.strokeStyle = 'rgba(233,233,233,0.3)';
+    // 描边
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(203,133,33,1)';
+    ctx.fill()
+</script>
+</body>
+</html>

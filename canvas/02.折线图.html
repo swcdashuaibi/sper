@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>折线图</title>
+</head>
+<body>
+<canvas width="600" height="600" id="demo"></canvas>
+
+<script>
+    var canvas = document.getElementById('demo');
+    var ctx = canvas.getContext('2d');
+
+    canvas.style.border = '1px solid #333';
+    var rectH = 10;
+    var rectW = 10;
+    for(var i=0;i<canvas.height/rectH;i++){
+        ctx.moveTo(0,i*rectH);
+        ctx.lineTo(canvas.width,i*rectH);
+        ctx.moveTo(i*rectW,0);
+        ctx.lineTo(i*rectW,canvas.height)
+    }
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "rgba(0,0,0,0.3)";
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(50,450);
+    ctx.lineTo(50,50);
+    ctx.moveTo(50,450);
+    ctx.lineTo(500,450);
+    ctx.moveTo(40,60);
+    ctx.lineTo(50,50);
+    ctx.lineTo(60,60);
+    ctx.moveTo(490,440);
+    ctx.lineTo(500,450);
+    ctx.lineTo(490,460);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#333";
+    ctx.stroke();
+
+    var arrList = [0.3,.8,.3,.6,.7,.7];
+    var line =[];
+    function mathH (arr,num) {
+        ctx.beginPath();
+        for(i=0;i<arr.length;i++){
+            line[i]= {"h":450-(num*arr[i]),"w":50+(450/arr.length)*i};
+            ctx.lineTo(50+(450/arr.length)*(i+0.5),450-(num*arr[i]));
+
+        }
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "red";
+        ctx.stroke();
+        console.log(line)
+    }
+    mathH(arrList,400)
+
+
+
+
+
+</script>
+</body>
+</html>

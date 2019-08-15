@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>饼图</title>
+</head>
+<body>
+<canvas id="demo" width="800" height="600"></canvas>
+
+<script>
+    (function () {
+        var canvas = document.getElementById('demo');
+        var ctx = canvas.getContext('2d');
+
+        var temAngle = -90;
+        var x0 =400;
+        var y0=400;
+        var radius = 200;
+        var data = [{
+            "value":.1,
+            "color":'green',
+            "title":""
+        },{
+            "value":.3,
+            "color":'#333',
+            "title":""
+        },{
+            "value":.2,
+            "color":'#263654',
+            "title":""
+        },{
+            "value":.4,
+            "color":'#39355e',
+            "title":""
+        }];
+
+        for(var i=0;i<data.length;i++){
+            ctx.beginPath();
+            ctx.moveTo(x0,y0);
+            var angle = data[i].value*360;
+            var startAngle = temAngle*Math.PI/180;
+            var endAngle = (temAngle+angle)*Math.PI/180;
+            ctx.fillStyle = data[i].color;
+            ctx.arc(x0,y0,radius,startAngle,endAngle);
+            ctx.fill();
+            temAngle += angle;
+        }
+    }());
+
+</script>
+</body>
+</html>
