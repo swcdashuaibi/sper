@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./lib/css/bootstrap-3.3.7.css">
+    <script src="./lib/js/jquery-1.11.3.min.js"></script>
+    <style>
+        #workspace{
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="workspace" width="900" height="900">
+
+    </canvas>
+    <input type="text" class="a">
+    <script>
+        var canvas = document.getElementById("workspace");
+        var ctx = canvas.getContext("2d");
+        var img = new Image();
+        img.src = './lib/img/blue-light.png';
+
+
+        canvas.style.border = '1px solid #333';
+
+        var oldValue = 0;
+        var nowValue = 0;
+        var rectH = 10;
+        var rectW = 10;
+        // 绘制基本巡检路线
+        var line = [
+            {"y": 30,"x":5},
+            {"y": 30,"x":10},
+            {"y": 30,"x":15},
+            {"y": 30,"x":20},
+            {"y": 30,"x":25},
+            {"y": 30,"x":30},
+            {"y": 30,"x":35},
+            {"y": 35,"x":40,"r":5,"d":"n"},
+            {"y": 40,"x":40},
+            {"y": 45,"x":45,"r":5,"d":"e"},
+            {"y": 45,"x":50},
+            {"y": 40,"x":55,"r":5,"d":"s"},
+        ];
+        var nowLine = [];
+        function drawLine(linePoint,lineColor,pointColor) {
+            ctx.beginPath();
+            ctx.moveTo(linePoint[0].x*rectW,linePoint[0].y*rectH);
+            for(var j=0;j<linePoint.length;j++){
+                var direction = linePoint[j].d;
+                var x,y,startAngle,endAngle,startD;
+
+                if(linePoint[j].r){
+                    switch (direction) {
+                        case "n":
+                            x = linePoint[j].x*rectW-linePoint[j].r*rectH;
+                            y = linePoint[j].y*rectH;
+                            startAngle = Math.PI*3/2;
+                            endAngle = 0;
+                            startD = false;
+                            break;
+                        case "e":
+                            x = linePoint[j].x*rectW;
+                            y = linePoint[j].y*rectH-linePoint[j].r*rectH;
+                            startAngle = Math.PI;
+                            endAngle = Math.PI/2;
+                            startD = true;
+                            break;
+                        case "s":
+                            x = linePoint[j].x*rectW-linePoint[j].r*rectH;
+                            y = linePoint[j].y*rectH;
+                            startAngle = Math.PI/2;
+                            endAngle = 0;
+                            startD = true;
+                            break;
+                        case "w":
+                            x = linePoint[j].x*rectW-linePoint[j].r*rectH;
+                            y = linePoint[j].y*rectH;
+                            startAngle = Math.PI/2;
+                            endAngle = 0;
+                            startD = true;
+                            break;
+                    }
+                    ctx.arc(x, y, linePoint[j].r*rectH, startAngle, endAngle ,startD);
+
+                }else{
+                    ctx.lineTo(linePoint[j].x*rectW,linePoint[j].y*rectH);
+                }
+            }
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = lineColor;
+            ctx.stroke();
+
+            for(var k=0;k<linePoint.length;k++){
+                ctx.beginPath();
+                ctx.arc(linePoint[k].x*rectW,linePoint[k].y*rectH, 5, 0, 2*Math.PI);
+                ctx.fillStyle=pointColor;
+                ctx.fill();
+            }
+        }
+
+        function initCanvas() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+
+            for(var i=0;i<canvas.height/rectH;i++){
+                ctx.moveTo(0,i*rectH);
+                ctx.lineTo(canvas.width,i*rectH);
+                ctx.moveTo(i*rectW,0);
+                ctx.lineTo(i*rectW,canvas.height)
+            }
+            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = "rgba(0,0,0,0.3)";
+            ctx.stroke();
+
+            drawLine(line,'rgba(0,0,255,0.3)','rgba(0,144,144,0.3)')
+
+        }
+        initCanvas();
+        function robotInspectionProgress(point,start,end){
+
+            if(start<end){
+                nowLine = line.slice(0,parseInt(start)+1);
+                drawLine(nowLine,'rgba(0,255,0,0.3)','rgba(255,255,0,1)');
+                ctx.beginPath();
+                ctx.moveTo(point[start].x*rectW,point[start].y*rectH);
+                var x = point[start].x*rectW;
+                var y = point[start].x*rectH;
+                x +=1;
+                y +=1;
+                ctx.lineTo(x,y);
+            }
+        }
+        $(".a").on("change",function () {
+            initCanvas();
+            nowValue = $(".a").val();
+            nowLine = line.slice(0,parseInt(nowValue)+1);
+            // robotInspectionProgress(nowLine,oldValue,nowValue);
+            drawLine(nowLine,'rgba(0,255,0,0.3)','rgba(255,255,0,1)');
+            ctx.drawImage(img,line[nowValue].x*rectW-13,line[nowValue].y*rectH-13);
+            oldValue = nowValue;
+        });
+    </script>
+</body>
+</html>
