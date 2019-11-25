@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="./lib/css/bootstrap-3.3.7.css">
+    <script src="./lib/js/jquery-1.11.3.min.js"></script>
+    <style>
+
+        .father{
+            width: 900px;
+            height: 900px;
+            position: relative;
+            left: 50px;
+            top: 50px;
+
+        }
+        .child{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            position: absolute;
+            background: #1b6d85;
+            z-index: 9999;
+        }
+        #workspace{
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="father">
+    <canvas id="workspace" width="900" height="900"></canvas>
+    <p class="child" style="left: 0">1</p>
+    <p class="child" style="left: 50px">1</p>
+    <p class="child" style="left: 100px">1</p>
+    <p class="child" style="left: 150px">1</p>
+    <p class="child" style="left: 200px">1</p>
+</div>
+<input type="text" class="a">
+
+
+
+<script>
+    // 新建画布
+    var canvas = document.getElementById("workspace");
+    var ctx = canvas.getContext("2d");
+
+
+    canvas.style.border = '1px solid #333';
+
+    var oldValue = 0;
+    var nowValue = 0;
+    var rectH = 20;
+    var rectW = 20;
+    var line = [
+        {"y": 30,"x":5},
+        {"y": 30,"x":10},
+        {"y": 30,"x":15},
+        {"y": 30,"x":20},
+        {"y": 30,"x":25}
+    ];
+    var nowLine = [];
+    function initCanvas() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+
+        for(var i=0;i<canvas.width/rectH;i++){
+            ctx.moveTo(0,i*rectH);
+            ctx.lineTo(canvas.width,i*rectH);
+            ctx.moveTo(i*rectW,0);
+            ctx.lineTo(i*rectW,canvas.height)
+        }
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(0,0,0,0.3)";
+        ctx.stroke();
+        drawLine(line,'rgba(0,0,255,0.3)','rgba(0,144,144,0.3)')
+    }
+    initCanvas();
+    function drawLine(linePoint,lineColor,pointColor) {
+        ctx.beginPath();
+        ctx.moveTo(linePoint[0].x+10,linePoint[0].y+10);
+        for(var j=0;j<linePoint.length;j++){
+            ctx.lineTo(linePoint[j].x+10,linePoint[j].y+10);
+        }
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = lineColor;
+        ctx.stroke();
+
+        for(var k=0;k<linePoint.length;k++){
+            ctx.beginPath();
+            ctx.arc(linePoint[k].x*rectW,linePoint[k].y*rectH, 5, 0, 2*Math.PI);
+            ctx.fillStyle=pointColor;
+            ctx.fill();
+        }
+    }
+
+
+    // 小球拖拽
+
+    function drag() {
+        var obj = $('.child');
+        var index = null;
+        var fatherX = 0;
+        var fatherY = 0;
+        var fatherW = 0;
+        var fatherH = 0;
+        obj.bind('mousedown', start);
+        function start(e) {
+            fatherX = $(this).parent().parent().offset().left;
+            fatherY = $(this).parent().parent().offset().top;
+            fatherW = parseInt($(this).parent().parent().css("width"));
+            fatherH = parseInt($(this).parent().parent().css("height"));
+
+            index = $(this).index()-1;
+            var ol = obj.parent().eq(index).offset().left;
+            var ot = obj.parent().eq(index).offset().top;
+            deltaX = e.parent().pageX - ol;
+            deltaY = e.parent().pageY - ot;
+            $(document).bind({
+                'mousemove': move,
+                'mouseup': stop
+            });
+
+            return false;
+        }
+        function move(e) {
+            var x = e.parent().pageX - deltaX - fatherX;
+            var y = e.parent().pageY - deltaY - fatherY;
+            if(x<10){
+                x = 10
+            }else if( x>fatherW-30 ){
+                x=fatherW - 30;
+            }else{
+                if(x%rectH>10){
+                    x = Math.ceil(x/rectH)*rectH+10
+                }else{
+                    x = Math.floor(x/rectH)*rectH+10
+                }
+            }
+
+            if(y<10){
+                y = 10
+            }else if( y>fatherH-30){
+                y=fatherH - 30;
+            }else{
+                if(y%rectH>10){
+                    y = Math.ceil(y/rectH)*rectH+10
+                }else{
+                    y = Math.floor(y/rectH)*rectH+10
+                }
+            }
+
+            obj.eq(index).css({
+                "left": x,
+                "top": y
+            });
+            line[index] = {x:x,y:y};
+            initCanvas();
+            nowValue = $(".a").val() || 0;
+            nowLine = line.slice(0,parseInt(nowValue)+1);
+            drawLine(nowLine,'rgba(0,255,0,0.3)','rgba(255,255,0,1)');
+            return false;
+        }
+        function stop() {
+            console.log(line);
+            $(document).unbind({
+                'mousemove': move,
+                'mouseup': stop
+            });
+        }
+    }
+    drag();
+
+    $(".a").on("change",function () {
+        initCanvas();
+        nowValue = $(".a").val();
+        nowLine = line.slice(0,parseInt(nowValue)+1);
+        // robotInspectionProgress(nowLine,oldValue,nowValue);
+        drawLine(nowLine,'rgba(0,255,0,0.3)','rgba(255,255,0,1)');
+        oldValue = nowValue;
+    });
+
+</script>
+</body>
+</html>

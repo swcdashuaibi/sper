@@ -118,20 +118,20 @@
 
         }
         initCanvas();
-        function robotInspectionProgress(point,start,end){
-
-            if(start<end){
-                nowLine = line.slice(0,parseInt(start)+1);
-                drawLine(nowLine,'rgba(0,255,0,0.3)','rgba(255,255,0,1)');
-                ctx.beginPath();
-                ctx.moveTo(point[start].x*rectW,point[start].y*rectH);
-                var x = point[start].x*rectW;
-                var y = point[start].x*rectH;
-                x +=1;
-                y +=1;
-                ctx.lineTo(x,y);
-            }
-        }
+        // function robotInspectionProgress(point,start,end){
+        //
+        //     if(start<end){
+        //         nowLine = line.slice(0,parseInt(start)+1);
+        //         drawLine(nowLine,'rgba(0,255,0,0.3)','rgba(255,255,0,1)');
+        //         ctx.beginPath();
+        //         ctx.moveTo(point[start].x*rectW,point[start].y*rectH);
+        //         var x = point[start].x*rectW;
+        //         var y = point[start].x*rectH;
+        //         x +=1;
+        //         y +=1;
+        //         ctx.lineTo(x,y);
+        //     }
+        // }
         $(".a").on("change",function () {
             initCanvas();
             nowValue = $(".a").val();
