@@ -10,7 +10,7 @@ router.get('/',function (req,res) {
         }
         // 从文件中读取的数一定是字符串，所以在这一定要手动转换对象
         res.render('index.html',{
-            "students": data.students
+            "students": data
         })
     })
 });
@@ -19,7 +19,8 @@ router.get('/student/new',function (req,res) {
 });
 
 router.post('/student/new',function (req,res) {
-    fun.save(req.body, function (err) {
+
+    fun(req.body).save(function (err) {
         if (err) {
             return res.status(500).send('Server error.')
         }
@@ -28,7 +29,7 @@ router.post('/student/new',function (req,res) {
 })
 
 router.get('/students/edit',function (req,res) {
-    fun.findById(req.query.id,function (err,data) {
+    fun.findById(req.query.id.replace(/"/g,''),function (err,data) {
         if (err) {
             return res.status(500).send('Server error.')
         }
@@ -39,7 +40,7 @@ router.get('/students/edit',function (req,res) {
 });
 
 router.post('/student/edit',function (req,res) {
-    fun.updataById(req.body,function (err) {
+    fun.findByIdAndUpdate(req.body.id.replace(/"/g,''),req.body,function (err) {
         if (err) {
             return res.status(500).send('Server error.')
         }
@@ -48,7 +49,7 @@ router.post('/student/edit',function (req,res) {
 });
 
 router.get('/students/delete',function (req,res) {
-    fun.delete(req.body.id,function (err) {
+    fun.findByIdAndRemove(req.query.id.replace(/"/g,''),function (err) {
         if (err) {
             return res.status(500).send('Server error.')
         }
