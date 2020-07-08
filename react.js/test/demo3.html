@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--    核心库-->
+    <script src="../dist/js/react.developent.js"></script>
+    <!--    提供操作dom的react扩展库-->
+    <script src="../dist/js/react.dom.js"></script>
+    <!--    解析jsx语法-->
+    <script src="../dist/js/babel.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/babel">
+
+    // 2.ES6类组件
+    class Complex extends React.Component{
+        render(){
+            return (
+                //类似vue组件需要div包裹
+                // 单标签必须添加结束标签
+                <div>
+                    <h1>复杂组件</h1>
+                    <input type="text"/>
+                </div>
+            )
+        }
+    }
+    ReactDOM.render(<Complex/>,document.getElementById('app1'))
+</script>
+</body>
+</html>
