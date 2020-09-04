@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/react/umd/react.development.js"></script>
+    <script src="node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="node_modules/babel-standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/babel">
+    // Component要大写
+    class Person extends React.Component{
+        render(){
+            return (
+                <div>
+                    <ul>
+                        <li>姓名：{this.props.name}</li>
+                        <li>年龄：{this.props.age}</li>
+                        <li>性别：{this.props.gender}</li>
+                    </ul>
+                </div>
+            )
+        }
+    }
+    const p1 = {
+        name:"张三",
+        age:25,
+        gender:'男'
+    }
+    const p2 = {
+        name:"李四",
+        age:"1",
+    }
+    // 指定属性默认值
+    Person.defaultProps={
+        name:'王芳',
+        age:13
+    }
+    // 指定属性值的类型和必要性
+    // Person.propTypes = {
+    //     name: PropTypes.string
+    // };
+
+
+    ReactDOM.render(<Person {...p1}/>,document.getElementById("app"))
+    ReactDOM.render(<Person {...p2}/>,document.getElementById("app"))
+
+</script>
+</body>
+</html>

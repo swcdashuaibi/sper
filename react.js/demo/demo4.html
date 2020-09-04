@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/react/umd/react.development.js"></script>
+    <script src="node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="node_modules/babel-standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/babel">
+    class App extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state={
+                todos:['吃饭','睡觉']
+            }
+            this.add = this.add.bind(this)
+        }
+        add(value){
+            const {todos} = this.state
+            todos.unshift(value)
+            this.setState({todos})
+        }
+        render(){
+            const {todos} = this.state
+            return (
+                <div>
+                    <TodoAdd count={this.state.todos.length} add={this.add}></TodoAdd>
+                    <TodoList todos={todos}></TodoList>
+                </div>
+            )
+        }
+    }
+
+    class TodoAdd extends React.Component{
+        constructor(props) {
+            super(props);
+            this.addTodo = this.addTodo.bind(this)
+        }
+        addTodo(){
+            const input = this.input.value.trim();
+            if(!input) {
+                return
+            }
+            this.props.add(input);
+            this.input = ''
+        }
+        render(){
+            return (
+                <div>
+                    <h2>Simple TODO List</h2>
+                    <input type="text" ref={input => this.input = input}/>
+                    <button onClick={this.addTodo}>Add{this.props.count+1}</button>
+                </div>
+            )
+        }
+    }
+    TodoAdd.propTypes = {
+
+    }
+    class TodoList extends React.Component{
+        constructor(props) {
+            super(props);
+        }
+        render(){
+            const todos = this.props.todos
+            return (
+                <ul>
+                    {todos.map((todo,index) =><li key={index}>{todo}</li>)}
+                </ul>
+            )
+        }
+    }
+
+    ReactDOM.render(<App />,document.getElementById("app"))
+
+</script>
+</body>
+</html>

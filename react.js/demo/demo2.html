@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/react/umd/react.development.js"></script>
+    <script src="node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="node_modules/babel-standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/babel">
+    // Component要大写
+    class Test extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state = {
+                isLikeMe:false
+            }
+            this.toggleData = this.toggleData.bind(this)
+        }
+        toggleData (){
+            const isLikeMe = !this.state.isLikeMe
+            this.setState({isLikeMe})
+        }
+        render(){
+            var {isLikeMe} = this.state
+            return <h2 onClick={this.toggleData}>{isLikeMe?'喜欢我':"喜欢你"}</h2>
+        }
+    }
+
+    ReactDOM.render(<Test />,document.getElementById("app"))
+
+</script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 {
-  "name": "crud-node",
+  "name": "demo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bootstrap": "^3.4.1",
-    "express": "^4.17.1",
-    "mongoose": "^5.9.10"
+    "babel-standalone": "^6.26.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   }
 }
