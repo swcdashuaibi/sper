@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/react/umd/react.development.js"></script>
+    <script src="node_modules/react-dom/umd/react-dom.development.js"></script>
+    <script src="node_modules/babel-standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+
+<script type="text/babel">
+    class App extends React.Component{
+        constructor(props) {
+            super(props);
+            this.state={
+                option:1
+            }
+            this.clearComponent = this.clearComponent.bind(this)
+        }
+        clearComponent(){
+            ReactDOM.unmountComponentAtNode(document.getElementById('app'))
+        }
+        componentDidMount(){
+            this.intervalId = setInterval(function () {
+                let option  = this.state.option
+                option -=0.1
+                if(option<=0){
+                    option=1
+                }
+                this.setState({option:option})
+            }.bind(this),200)
+        }
+        componentWillUnmount () {// 清除定时器/解除监听
+            console.log('componentWillUnmount(): 将要被移除')
+            clearInterval(this.intervalId)
+        }
+        render(){
+            let {option} = this.state
+            return (
+                <div>
+                    <h1 style={{opacity:option}}>{this.props.content}</h1>
+                    <button onClick={this.clearComponent}>太棒了</button>
+                </div>
+            )
+        }
+    }
+
+    ReactDOM.render(<App content="react组件的生命周期"/>,document.getElementById("app"))
+
+</script>
+</body>
+</html>
